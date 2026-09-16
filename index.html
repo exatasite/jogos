@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Jogos de Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .menu-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn-jogo {
+            display: inline-block;
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-matematica {
+            background-color: #4CAF50;
+        }
+        .btn-matematica:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        .btn-pa {
+            background-color: #2196F3;
+        }
+        .btn-pa:hover {
+            background-color: #0b7dda;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎮 Escolha o Seu Jogo!</h1>
+
+    <div class="menu-container">
+        <!-- Botão para o Quiz de Matemática -->
+        <a href="quiz-maxime-matematica.html" class="btn-jogo btn-matematica">📐 Quiz Maxime Matemática</a>
+        
+        <!-- Botão para o Quiz de PA -->
+        <a href="quiz-maxime-pa.html" class="btn-jogo btn-pa">🔢 Quiz Maxime P.A.</a>
+    </div>
+
+</body>
+</html>
