@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos - UNIPRÓ</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f8fc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 { color: #1c305c; margin-bottom: 30px; }
+        .menu-container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .btn-jogo {
+            display: inline-block;
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: #1c305c;
+        }
+        .btn-jogo:hover { transform: scale(1.05); background-color: #466ea0; }
+        .btn-voltar { margin-top: 40px; color: #1c305c; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>🎓 Jogos - UNIPRÓ</h1>
+
+    <div class="menu-container">
+        <a href="quiz-unipro-enem.html" class="btn-jogo">✏️ Quiz Matemática ENEM</a>
+        <a href="quiz-unipro-raciocinio.html" class="btn-jogo">🧠 Quiz Raciocínio Lógico</a>
+    </div>
+
+    <a href="index.html" class="btn-voltar">← Voltar para seleção de escolas</a>
+
+</body>
+</html>

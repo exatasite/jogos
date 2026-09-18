@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos - Faculdade Multivix</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 { color: #181818; margin-bottom: 30px; }
+        .menu-container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .btn-jogo {
+            display: inline-block;
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: #b2161c;
+        }
+        .btn-jogo:hover { transform: scale(1.05); }
+        .btn-voltar { margin-top: 40px; color: #181818; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>🏛️ Jogos - Faculdade Multivix</h1>
+
+    <div class="menu-container">
+        <a href="quiz-multivix-calculo.html" class="btn-jogo">📊 Quiz Cálculo I</a>
+        <a href="quiz-multivix-geometria.html" class="btn-jogo">📐 Quiz Geometria Analítica</a>
+    </div>
+
+    <a href="index.html" class="btn-voltar">← Voltar para seleção de escolas</a>
+
+</body>
+</html>
