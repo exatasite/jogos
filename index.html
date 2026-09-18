@@ -16,44 +16,55 @@
             margin: 0;
         }
         h1 {
-            color: #1b2b95;
+            color: #1c305c;
             margin-bottom: 10px;
         }
         p {
-            color: #666;
+            color: #555;
             margin-bottom: 30px;
         }
         .menu-container {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
             justify-content: center;
             max-width: 900px;
         }
-        .btn-escola {
+        .card-escola {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             width: 220px;
-            padding: 30px 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
+            padding: 25px 20px;
             border-radius: 12px;
             transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: white;
             text-align: center;
         }
-        .btn-escola:hover {
+        .card-escola:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+        }
+        .card-escola img {
+            max-width: 140px;
+            max-height: 70px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 8px;
+            border-radius: 8px;
+        }
+        .card-escola span {
+            font-size: 18px;
+            font-weight: bold;
         }
         /* Cores das Instituições */
-        .btn-maxime { background-color: #1b2b95; }
-        .btn-multivix { background-color: #b2161c; }
-        .btn-unipro { background-color: #1c305c; }
+        .card-maxime { background-color: #1b2b95; }
+        .card-multivix { background-color: #181818; }
+        .card-unipro { background-color: #1c305c; }
     </style>
 </head>
 <body>
@@ -63,18 +74,21 @@
 
     <div class="menu-container">
         <!-- Colégio Maxime -->
-        <a href="escola-maxime.html" class="btn-escola btn-maxime">
-            🏫<br><br>Colégio Maxime
+        <a href="escola-maxime.html" class="card-escola card-maxime">
+            <img src="figuras/logo_maxime.png" alt="Logo Maxime">
+            <span>Colégio Maxime</span>
         </a>
         
         <!-- Faculdade Multivix -->
-        <a href="escola-multivix.html" class="btn-escola btn-multivix">
-            🏛️<br><br>Faculdade Multivix
+        <a href="escola-multivix.html" class="card-escola card-multivix">
+            <img src="figuras/logo_multivix.png" alt="Logo Multivix">
+            <span>Faculdade Multivix</span>
         </a>
 
         <!-- UNIPRÓ -->
-        <a href="escola-unipro.html" class="btn-escola btn-unipro">
-            🎓<br><br>UNIPRÓ
+        <a href="escola-unipro.html" class="card-escola card-unipro">
+            <img src="figuras/logo_unipro.png" alt="Logo UNIPRÓ">
+            <span>UNIPRÓ</span>
         </a>
     </div>
 
