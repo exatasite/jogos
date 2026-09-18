@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz do Espaço Sideral — Maxime Centro Educacional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1B2A6B;
+    --blue-dark:#121F52;
+    --red:#E3272C;
+    --yellow:#F9B316;
+    --paper:#FAF9F5;
+    --ink:#171A2E;
+    --ink-soft:#5B5F79;
+    --card:#FFFFFF;
+    --line:#E7E5DE;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#12131F;
+      --ink:#F1F1F6;
+      --ink-soft:#B3B4C6;
+      --card:#1B1D2E;
+      --line:#2C2E45;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12131F;
+    --ink:#F1F1F6;
+    --ink-soft:#B3B4C6;
+    --card:#1B1D2E;
+    --line:#2C2E45;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.headline{
+    font-family:'Space Grotesk','Inter',system-ui,sans-serif;
+    letter-spacing:-0.01em;
+  }
+
+  .tri-field{
+    position:absolute;
+    top:0; left:0; right:0;
+    height:220px;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:0;
+  }
+  .tri{
+    position:absolute;
+    width:0; height:0;
+    opacity:0.85;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:640px;
+    padding:28px 20px 64px;
+    position:relative;
+    z-index:1;
+  }
+
+  .brand-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin:18px 0 8px;
+  }
+  .brand-row .badge-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--blue);
+    background: rgba(27,42,107,0.08);
+    padding: 8px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+  }
+  :root[data-theme="dark"] .brand-row .badge-text, @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .brand-row .badge-text { color: var(--yellow); background: rgba(249,179,22,0.1); }
+  }
+
+  .kicker{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:0.95rem;
+    margin:0 0 36px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:36px 32px;
+    box-shadow:0 1px 2px rgba(20,20,40,0.04), 0 12px 32px -18px rgba(20,20,40,0.18);
+  }
+
+  .screen{display:none;}
+  .screen.active{display:block;}
+
+  /* START SCREEN */
+  #start h2{
+    font-size:1.5rem;
+    margin:0 0 6px;
+    text-align:center;
+  }
+  #start p.sub{
+    text-align:center;
+    color:var(--ink-soft);
+    margin:0 0 28px;
+    font-size:0.98rem;
+  }
+  label.field-label{
+    display:block;
+    font-size:0.85rem;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin:0 0 8px;
+  }
+  input[type="text"]{
+    width:100%;
+    padding:14px 16px;
+    border-radius:10px;
+    border:1.5px solid var(--line);
+    background:transparent;
+    color:var(--ink);
+    font-size:1rem;
+    font-family:inherit;
+    margin-bottom:20px;
+  }
+  input[type="text"]:focus{
+    outline:none;
+    border-color:var(--blue);
+  }
+  .topics-note{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:0 0 24px;
+  }
+  .chip{
+    font-size:0.78rem;
+    padding:5px 11px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+  }
+
+  button{
+    font-family:inherit;
+    cursor:pointer;
+  }
+  .btn-primary{
+    width:100%;
+    background:var(--blue);
+    color:#fff;
+    border:none;
+    padding:15px 20px;
+    border-radius:10px;
+    font-size:1rem;
+    font-weight:600;
+    transition:background 0.15s ease, transform 0.1s ease;
+  }
+  .btn-primary:hover{background:var(--blue-dark);}
+  .btn-primary:active{transform:scale(0.99);}
+  .btn-primary:disabled{
+    opacity:0.45;
+    cursor:not-allowed;
+  }
+
+  /* QUIZ SCREEN */
+  .progress-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+    gap:16px;
+  }
+  .progress-steps{
+    display:flex;
+    gap:6px;
+    flex:1;
+  }
+  .step-tri{
+    width:0; height:0;
+    border-left:9px solid transparent;
+    border-right:9px solid transparent;
+    border-bottom:16px solid var(--line);
+    transition:border-bottom-color 0.2s ease;
+  }
+  .step-tri.done{border-bottom-color:var(--yellow);}
+  .step-tri.current{border-bottom-color:var(--blue);}
+  .score-tag{
+    font-size:0.85rem;
+    font-weight:600;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+
+  .q-count{
+    font-size:0.8rem;
+    font-weight:600;
+    color:var(--red);
+    text-transform:none;
+    margin:0 0 10px;
+  }
+  .q-text{
+    font-size:1.2rem;
+    font-weight:600;
+    margin:0 0 24px;
+    line-height:1.4;
+  }
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .option{
+    text-align:left;
+    background:transparent;
+    border:1.5px solid var(--line);
+    color:var(--ink);
+    padding:14px 16px;
+    border-radius:10px;
+    font-size:0.98rem;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:border-color 0.15s ease, background 0.15s ease;
+  }
+  .option:hover:not(:disabled){border-color:var(--blue);}
+  .option .letter{
+    width:26px; height:26px;
+    border-radius:7px;
+    background:var(--paper);
+    border:1.5px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.78rem;
+    font-weight:700;
+    color:var(--ink-soft);
+    flex-shrink:0;
+  }
+  .option:disabled{cursor:default;}
+  .option.correct{
+    border-color:#1E9E5A;
+    background:rgba(30,158,90,0.08);
+  }
+  .option.correct .letter{background:#1E9E5A;border-color:#1E9E5A;color:#fff;}
+  .option.wrong{
+    border-color:var(--red);
+    background:rgba(227,39,44,0.07);
+  }
+  .option.wrong .letter{background:var(--red);border-color:var(--red);color:#fff;}
+
+  .explain{
+    display:none;
+    font-size:0.92rem;
+    color:var(--ink-soft);
+    background:var(--paper);
+    border-left:3px solid var(--yellow);
+    padding:12px 14px;
+    border-radius:6px;
+    margin-bottom:20px;
+    line-height:1.5;
+  }
+  .explain.show{display:block;}
+
+  .btn-next{
+    width:100%;
+    background:var(--yellow);
+    color:var(--ink);
+    border:none;
+    padding:14px 20px;
+    border-radius:10px;
+    font-weight:700;
+    font-size:0.98rem;
+    display:none;
+  }
+  .btn-next.show{display:block;}
+  .btn-next:hover{filter:brightness(0.95);}
+
+  /* RESULT SCREEN */
+  #result{text-align:center;}
+  #result h2{
+    font-size:1.7rem;
+    margin:0 0 4px;
+  }
+  .result-name{color:var(--red);}
+  #result .score-big{
+    font-size:3rem;
+    font-weight:700;
+    font-family:'Space Grotesk',sans-serif;
+    color:var(--blue);
+    margin:18px 0 2px;
+  }
+  #result .score-sub{
+    color:var(--ink-soft);
+    font-size:0.95rem;
+    margin:0 0 22px;
+  }
+  #result .msg{
+    font-size:1rem;
+    margin:0 0 28px;
+    line-height:1.5;
+  }
+  .btn-secondary{
+    width:100%;
+    background:transparent;
+    border:1.5px solid var(--blue);
+    color:var(--blue);
+    padding:13px 20px;
+    border-radius:10px;
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .btn-secondary:hover{background:rgba(27,42,107,0.06);}
+
+  footer{
+    text-align:center;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    margin-top:28px;
+    opacity:0.7;
+  }
+
+  @media (max-width:480px){
+    .card{padding:26px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="tri-field" id="triField"></div>
+
+<div class="wrap">
+  <div class="brand-row">
+    <div class="badge-text">MAXIME CENTRO EDUCACIONAL</div>
+  </div>
+  <p class="kicker">Desafio Interativo de Astronomia e Ciências</p>
+
+  <div class="card">
+    <!-- START SCREEN -->
+    <div id="start" class="screen active">
+      <h2>🚀 Quiz do Espaço Sideral</h2>
+      <p class="sub">Teste seus conhecimentos sobre o Universo, planetas e galáxias!</p>
+      
+      <label class="field-label" for="username">Digite o seu nome:</label>
+      <input type="text" id="username" placeholder="Ex: Ana Souza" autocomplete="off">
+
+      <div class="topics-note">
+        <span class="chip">Sistema Solar</span>
+        <span class="chip">Buracos Negros</span>
+        <span class="chip">Estrelas</span>
+        <span class="chip">Exploração Espacial</span>
+      </div>
+
+      <button class="btn-primary" id="startBtn" disabled>Começar Desafio</button>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz" class="screen">
+      <div class="progress-row">
+        <div class="progress-steps" id="progressSteps"></div>
+        <div class="score-tag" id="scoreTag">Acertos: 0</div>
+      </div>
+
+      <div class="q-count" id="qCount">Questão 1 de 5</div>
+      <div class="q-text" id="qText">Carregando pergunta...</div>
+
+      <div class="options" id="options"></div>
+      <div class="explain" id="explain"></div>
+
+      <button class="btn-next" id="nextBtn">Próxima Questão ➔</button>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="result" class="screen">
+      <h2>Fim de Jogo! 🌠</h2>
+      <div class="score-big" id="finalScore">0/5</div>
+      <div class="score-sub" id="finalPercent">Aproveitamento de 0%</div>
+      <p class="msg" id="resultMsg">Parabéns por concluir o quiz!</p>
+      <button class="btn-secondary" id="restartBtn">Jogar Novamente</button>
+    </div>
+  </div>
+
+  <footer>
+    Maxime Centro Educacional &copy; 2026 — Todos os direitos reservados.
+  </footer>
+</div>
+
+<script>
+  // Geração dinâmica dos triângulos decorativos de fundo
+  const triField = document.getElementById('triField');
+  const colors = ['var(--blue)', 'var(--red)', 'var(--yellow)'];
+  for (let i = 0; i < 18; i++) {
+    const t = document.createElement('div');
+    t.className = 'tri';
+    const size = Math.floor(Math.random() * 22) + 10;
+    const left = Math.random() * 100;
+    const top = Math.random() * 190;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    
+    t.style.left = left + '%';
+    t.style.top = top + 'px';
+    t.style.borderLeft = (size/2) + 'px solid transparent';
+    t.style.borderRight = (size/2) + 'px solid transparent';
+    t.style.borderBottom = size + 'px solid ' + color;
+    t.style.opacity = (Math.random() * 0.15 + 0.05).toFixed(2);
+    triField.appendChild(t);
+  }
+
+  // Base de dados de perguntas do Quiz de Astronomia
+  const questions = [
+    {
+      q: "Qual é o maior planeta do nosso Sistema Solar?",
+      options: [
+        "Saturno",
+        "Júpiter",
+        "Netuno",
+        "Terra"
+      ],
+      correct: 1,
+      explain: "Júpiter é o maior planeta do Sistema Solar, sendo tão grande que todos os outros planetas caberiam dentro dele."
+    },
+    {
+      q: "Qual planeta é conhecido popularmente como o 'Planeta Vermelho'?",
+      options: [
+        "Vênus",
+        "Marte",
+        "Mercúrio",
+        "Urano"
+      ],
+      correct: 1,
+      explain: "Marte ganha essa coloração devido à grande quantidade de óxido de ferro (ferrugem) presente em sua superfície e atmosfera."
+    },
+    {
+      q: "O que é um buraco negro?",
+      options: [
+        "Um buraco vazio no tecido do espaço criado por asteroides.",
+        "Uma estrela fria que parou de emitir luz azul.",
+        "Uma região do espaço com uma gravidade tão intensa que nada, nem mesmo a luz, consegue escapar.",
+        "Um planeta feito inteiramente de carvão e matéria escura."
+      ],
+      correct: 2,
+      explain: "Buracos negros possuem campos gravitacionais extremos gerados por muita matéria comprimida em um espaço minúsculo."
+    },
+    {
+      q: "Qual é a estrela mais próxima da Terra?",
+      options: [
+        "Próxima Centauri",
+        "Sírius",
+        "Betelgeuse",
+        "O Sol"
+      ],
+      correct: 3,
+      explain: "O Sol é a estrela central do nosso sistema planetário e a mais próxima da Terra a uma distância média de cerca de 150 milhões de km."
+    },
+    {
+      q: "Quanto tempo a luz do Sol demora para chegar até a Terra?",
+      options: [
+        "Cerca de 8 minutos",
+        "Exatamente 1 segundo",
+        "1 hora e 20 minutos",
+        "24 horas"
+      ],
+      correct: 0,
+      explain: "Como a luz viaja a cerca de 300.000 km/s, os raios solares levam aproximadamente 8 minutos e 20 segundos para percorrer a distância até nós."
+    }
+  ];
+
+  let currentIdx = 0;
+  let score = 0;
+  let playerName = "";
+  let answered = false;
+
+  const usernameInput = document.getElementById('username');
+  const startBtn = document.getElementById('startBtn');
+  const startScreen = document.getElementById('start');
+  const quizScreen = document.getElementById('quiz');
+  const resultScreen = document.getElementById('result');
+
+  const progressSteps = document.getElementById('progressSteps');
+  const scoreTag = document.getElementById('scoreTag');
+  const qCount = document.getElementById('qCount');
+  const qText = document.getElementById('qText');
+  const optionsEl = document.getElementById('options');
+  const explainEl = document.getElementById('explain');
+  const nextBtn = document.getElementById('nextBtn');
+
+  // Habilitar botão de início se houver texto
+  usernameInput.addEventListener('input', () => {
+    startBtn.disabled = usernameInput.value.trim().length === 0;
+  });
+
+  startBtn.addEventListener('click', () => {
+    playerName = usernameInput.value.trim();
+    startScreen.classList.remove('active');
+    quizScreen.classList.add('active');
+    initProgressSteps();
+    loadQuestion();
+  });
+
+  function initProgressSteps() {
+    progressSteps.innerHTML = '';
+    questions.forEach((_, i) => {
+      const tri = document.createElement('div');
+      tri.className = 'step-tri' + (i === 0 ? ' current' : '');
+      progressSteps.appendChild(tri);
+    });
+  }
+
+  function updateProgressSteps() {
+    const steps = progressSteps.children;
+    for (let i = 0; i < steps.length; i++) {
+      steps[i].className = 'step-tri';
+      if (i < currentIdx) steps[i].classList.add('done');
+      else if (i === currentIdx) steps[i].classList.add('current');
+    }
+  }
+
+  function loadQuestion() {
+    answered = false;
+    explainEl.classList.remove('show');
+    nextBtn.classList.remove('show');
+    
+    const currentQ = questions[currentIdx];
+    qCount.textContent = `Questão ${currentIdx + 1} de ${questions.length}`;
+    qText.textContent = currentQ.q;
+    scoreTag.textContent = `Acertos: ${score}`;
+    
+    optionsEl.innerHTML = '';
+    const letters = ['A', 'B', 'C', 'D'];
+    
+    currentQ.options.forEach((optText, index) => {
+      const btn = document.createElement('button');
+      btn.className = 'option';
+      btn.innerHTML = `<span class="letter">${letters[index]}</span><span>${optText}</span>`;
+      btn.addEventListener('click', () => selectOption(index, btn));
+      optionsEl.appendChild(btn);
+    });
+
+    updateProgressSteps();
+  }
+
+  function selectOption(selectedIndex, selectedBtn) {
+    if (answered) return;
+    answered = true;
+
+    const currentQ = questions[currentIdx];
+    const optionBtns = optionsEl.children;
+
+    if (selectedIndex === currentQ.correct) {
+      score++;
+      selectedBtn.classList.add('correct');
+      scoreTag.textContent = `Acertos: ${score}`;
+    } else {
+      selectedBtn.classList.add('wrong');
+      optionBtns[currentQ.correct].classList.add('correct');
+    }
+
+    // Desabilitar todas as opções após a escolha
+    for (let btn of optionBtns) {
+      btn.disabled = true;
+    }
+
+    // Mostrar explicação
+    explainEl.textContent = currentQ.explain;
+    explainEl.classList.add('show');
+    nextBtn.classList.add('show');
+  }
+
+  nextBtn.addEventListener('click', () => {
+    currentIdx++;
+    if (currentIdx < questions.length) {
+      loadQuestion();
+    } else {
+      showResults();
+    }
+  });
+
+  function showResults() {
+    quizScreen.classList.remove('active');
+    resultScreen.classList.add('active');
+
+    document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
+    const pct = Math.round((score / questions.length) * 100);
+    document.getElementById('finalPercent').textContent = `Aproveitamento de ${pct}%`;
+
+    const msgEl = document.getElementById('resultMsg');
+    if (score === questions.length) {
+      msgEl.innerHTML = `Incrível, <span class="result-name">${playerName}</span>! Você gabaritou o quiz e é um verdadeiro astrônomo! 🌟🚀`;
+    } else if (score >= 3) {
+        msgEl.innerHTML = `Muito bem, <span class="result-name">${playerName}</span>! Você tem um ótimo conhecimento sobre o espaço. 🌌`;
+    } else {
+        msgEl.innerHTML = `Boa tentativa, <span class="result-name">${playerName}</span>! O universo é vasto, continue estudando e tente de novo! 🌠`;
+    }
+  }
+
+  document.getElementById('restartBtn').addEventListener('click', () => {
+    currentIdx = 0;
+    score = 0;
+    resultScreen.classList.remove('active');
+    startScreen.classList.add('active');
+    usernameInput.value = '';
+    startBtn.disabled = true;
+  });
+</script>
+</body>
+</html>
